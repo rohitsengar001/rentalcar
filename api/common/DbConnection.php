@@ -1,22 +1,24 @@
 <?php
-
-namespace api\common;
+namespace rentalcar\api\common;
 use mysqli;
 
-
-interface connect_interface{
-    
-    public static function connect();
+interface connect_interface
+{
+    /**
+     * @return \mysqli $conn =>Mysqli object
+     * 😍
+     */
+    public static function connect(): mysqli;
 }
 
 class DbConnection implements connect_interface
 {
+    private static $conn;
+    private static $class_instance;
     private $server;
     private $username;
     private $password;
     private $database;
-    private static $conn;
-    private static $class_instance;
 
     function __construct($server, $username, $password, $database)
     {
@@ -28,41 +30,49 @@ class DbConnection implements connect_interface
 
     // @return: connection object of database 
     //Singleton desining pattern is applied
-    public static function connect()
+    public static function connect(): mysqli
     {
         //get DbConnection object 
         $instance = self::getInstance();
         //get $conn object
         $conn = $instance->initConnection();
-        if($conn->connect_error){
+        if ($conn->connect_error) {
             echo "Database Connection Error";
         }
         return $conn;
     }
 
 
-    //@return $
+    /**
+     * @return Object  $class_instance
+     *🍝:return the object of DbConnection
+     */
     private static function getInstance()
     {
         if (self::$class_instance == null) {
-            self::$class_instance = new DbConnection('localhost', 'root', '', 'rental');
+            self::$class_instance = new DbConnection(
+                'localhost',
+                'root'
+                , ''
+                , 'rentalcar'
+            );
         }
         return self::$class_instance;
     }
 
-    private function initConnection()
+    private function initConnection(): mysqli
     {
         // singleton instance of Database Connection
-            if (self::$class_instance != null) {
-                self::$conn = new mysqli(
-                    self::$class_instance->server,
-                    self::$class_instance->username,
-                    self::$class_instance->password,
-                    self::$class_instance->database,
-                );
-            }
-        
-        error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
+        if (self::$class_instance != null) {
+            self::$conn = new mysqli(
+                self::$class_instance->server,
+                self::$class_instance->username,
+                self::$class_instance->password,
+                self::$class_instance->database,
+            );
+        }
         return self::$conn;
     }
 }
+
+
