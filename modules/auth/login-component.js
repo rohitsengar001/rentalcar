@@ -1,7 +1,10 @@
 console.log("login-component.js running");
 let email = document.getElementById("email");
 let password = document.getElementById('password');
+let userType = document.getElementById('userType');
 let validEmail = false;
+let validPassword = false;
+let validUserType = false;
 
 email.addEventListener("blur", () => {
     // console.log("event running");
@@ -24,6 +27,7 @@ email.addEventListener("blur", () => {
             validEmail = false;
         }
     }
+    validEmail = result;
     emailFeedback.innerHTML = alertMsg;
 });
 
@@ -54,5 +58,17 @@ password.addEventListener('blur',()=>{
 
     }
    passwordFeedback.innerHTML=`<b>${alertMsg}<b>`;
+    validPassword =result;
 });
+
+userType.addEventListener('blur',()=>{
+    let msg= userType.value === "Select User" ? "kindly Select user type":'';
+    let userFeedback = document.getElementById('user-feedback');
+    userFeedback.innerHTML =`<b>${msg}</b>`;
+    console.log("user blur:",msg);
+});
+
+function validateAllFields(){
+
+}
 
