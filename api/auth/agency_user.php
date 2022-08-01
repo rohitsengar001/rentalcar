@@ -9,7 +9,6 @@ header('Access-Control-Allow-Headers:Content-Type,Access-Control-Allow-Method,Ac
 include '../../api/common/DbConnection.php';
 
 use Exception;
-use mysqli_sql_exception;
 use rentalcar\api\common\DbConnection;
 
 
@@ -49,12 +48,14 @@ class agency_user implements validate_agency
 {
     private $email;
     private $password;
+    private $user_type;
     private $conn;
 
-    function __construct($username, $password)
+    function __construct($username, $password, $user_type)
     {
         $this->email = $username;
         $this->password = $password;
+        $this->user_type = $user_type;
         $this->conn = DbConnection::connect();
     }
 
@@ -72,8 +73,10 @@ class agency_user implements validate_agency
         // CHECKING EMPTY FIELDS
         elseif (!isset($this->email)
             || !isset($this->password)
+            || !isset($this->user_type)
             || empty(trim($this->email))
             || empty(trim($this->password))
+            || empty(trim($this->user_type))
         ) {
             $fields = ['fields' => ['email', 'password']];
             $return_data = $this->msg(0, 422, 'Please Fill in all Required Fields!', $fields);
@@ -83,8 +86,11 @@ class agency_user implements validate_agency
             $emailTrim = trim($this->email);
             $passwordTrim = trim($this->password);
 
+            if($this->user_type != 'agency'){
+                return $this->msg(0, 422, 'Invalid User!');
+            }
             // CHECK EMAIL FORMAT VALID OR NOT
-            if (!$this->filter_email($emailTrim))
+            elseif (!$this->filter_email($emailTrim))
                 $return_data = $this->msg(0, 422, 'Invalid Email Address!');
             elseif (strlen($passwordTrim) < 8)
                 $return_data = $this->msg(0, 422, 'Your password must be at least 8 characters long!');
@@ -93,7 +99,9 @@ class agency_user implements validate_agency
             // ENSURE THAT IT COULD THROW A EXCEPTION
             // HANDLING THE DATABASE EXCEPTION
             try {
-                $backend_data = $this->conn->query("SELECT * FROM auth_table where username= '" . $emailTrim . "'");
+                $backend_data = $this->conn->query(
+                    "SELECT * FROM auth_table where username= '{$emailTrim}' AND user_type='{$this->user_type}' 
+                    ");
                 // IF USER FOUNDED BY EMAIL
                 if ($backend_data->num_rows > 0) {
                     $row = $backend_data->fetch_assoc();
@@ -107,7 +115,7 @@ class agency_user implements validate_agency
                         'status' => 422,
                         'message' => 'Invalid Password.',
                     ];
-                }else{
+                } else {
                     $return_data = [
                         'success' => 0,
                         'status' => 422,
@@ -148,11 +156,10 @@ class agency_user implements validate_agency
         $receive_backend_data = $this->conn->query("SELECT * FROM auth_table where username= '" . $_POST[$this->email] . "'");
         return $receive_backend_data->fetch_array();
     }
-
 }
 
 $data = json_decode(file_get_contents("php://input"));
 //echo json_encode(["user"=>$data->email,"message"=>"valid user"]);
-$agency_user = new agency_user($data->email, $data->password);
+$agency_user = new agency_user($data->email, $data->password, $data->user_type);
 echo json_encode($agency_user->validate_user());
 //echo json_encode(["status"=>200,"mess"=>"hello"]);
