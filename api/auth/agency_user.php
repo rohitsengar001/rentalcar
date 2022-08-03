@@ -157,9 +157,12 @@ class agency_user implements validate_agency
         return $receive_backend_data->fetch_array();
     }
 }
-
+//receive json object
+//decode json object into php associative array
 $data = json_decode(file_get_contents("php://input"));
-//echo json_encode(["user"=>$data->email,"message"=>"valid user"]);
+
+//pass the parameters inside the constructor
 $agency_user = new agency_user($data->email, $data->password, $data->user_type);
+
+//return json object to user
 echo json_encode($agency_user->validate_user());
-//echo json_encode(["status"=>200,"mess"=>"hello"]);
