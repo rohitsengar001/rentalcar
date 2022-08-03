@@ -1,3 +1,6 @@
+<?php
+if(defined('BLOCK_DIRECT_ACCESS')){
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -95,57 +98,65 @@
             border-top-right-radius: 0;
         }
     </style>
-
-
     <!-- Custom styles for this template -->
     <link href="./login.css" rel="stylesheet">
 </head>
 <body class="text-center">
+
 <main class="form-signin w-100 mx-auto">
-<!--    <form>-->
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert-div">
 
-        <img class="mb-4" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToC1dXoZ2nq61L01uJ1MKUG-IvTqxjVFd-Mg&usqp=CAU" alt="" width="100" height="80">
-        <h1 class="h2 mb-3 fw-normal">Please sign in</h1>
-        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="userType" name="user_type">
-            <option selected>Select User</option>
-            <option value="1">Agency</option>
-            <option value="2">Customer</option>
-        </select>
-    <small id="user-feedback" class="form-text text-danger invalid-feedback">
-    </small>
-        <div class="form-floating">
-            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com"
-                   required>
-            <label for="floatingInput">Email address</label>
-            <small id="email-feedback" class="form-text text-danger invalid-feedback">
-               <p></p>
-            </small>
-        </div>
-        <div class="form-floating">
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password"
-                   required>
-            <label for="floatingPassword">Password</label>
-            <small id="password-feedback" class="form-text text-danger invalid-feedback">
-            </small>
+    </div>
+    <!--    <form>-->
 
-        </div>
+    <img class="mb-4"
+         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToC1dXoZ2nq61L01uJ1MKUG-IvTqxjVFd-Mg&usqp=CAU"
+         alt="" width="100" height="80">
+    <h1 class="h2 mb-3 fw-normal">Please sign in</h1>
+    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="userType" name="user_type">
+        <option selected>Select User</option>
+        <option value="agency">Agency</option>
+        <option value="customer">Customer</option>
+    </select>
+    <div id="user-feedback" class="invalid-feedback">
+        invalid
+    </div>
+    <div class="form-floating">
+        <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com"
+               required autocomplete="off">
+        <label for="floatingInput">Email address</label>
+        <small id="email-feedback" class="form-text text-danger invalid-feedback">
+            <p></p>
+        </small>
+    </div>
+    <div class="form-floating">
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+               required autocomplete="off">
+        <label for="floatingPassword">Password</label>
+        <small id="password-feedback" class="form-text text-danger invalid-feedback">
+        </small>
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
-        </div>
-           <button class="w-100 btn btn-lg btn-primary"  onclick="onLogin()" id="signin">Sign in</button>
-       <div class="m-2">
-           <button type="button" class="btn btn-outline-primary">Registration</button>
-           <label for="registration text-"><span class="badge text-bg-success">Register yourself</span>to access functionality</label><br>
-       </div>
-        <br>
-        <br>
-        <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
-<!--    </form>-->
-
+    </div>
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember-me"> Remember me
+        </label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" onclick="onLogin();" id="signin">Sign in</button>
+    <div class="m-2">
+        <button type="button" class="btn btn-outline-primary">Registration</button>
+        <label for="registration text-"><span class="badge text-bg-success">Register Yourself</span>To Access
+            Application</label><br>
+    </div>
+    <br>
+    <br>
+    <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
+    <!--    </form>-->
 </main>
 <script src="./login-component.js"></script>
 </body>
 </html>
+
+<?php } else{
+    header("Location: ../../../notfound.php");
+} ?>

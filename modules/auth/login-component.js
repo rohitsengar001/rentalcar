@@ -2,17 +2,23 @@ console.log("login-component.js running");
 let email = document.getElementById("email");
 let password = document.getElementById('password');
 let userType = document.getElementById('userType');
+
+(function(){
+    let alertDiv = document.getElementById("alert-div");
+    alertDiv.style.display='none';
+})();
 let validEmail = false;
 let validPassword = false;
 let validUserType = false;
 
-email.addEventListener("blur", () => {
+email.addEventListener("blur", (event) => {
     // console.log("event running");
     let regex = /^([_\-\.0-9a-zA-Z]+)@([_\-\.0-9a-zA-Z]+)\.([a-zA-Z]){2,7}$/;
     let str = email.value;
     let result = regex.test(str); //?return type :Boolean
     let emailFeedback = document.getElementById("email-feedback");
     let alertMsg = "";
+    event.stopPropagation();
     if (str === "") {
         alertMsg = `<b>Email is empty !</b>`;
         email.classList.add("is-invalid");
@@ -31,44 +37,61 @@ email.addEventListener("blur", () => {
     emailFeedback.innerHTML = alertMsg;
 });
 
-password.addEventListener('blur',()=>{
+password.addEventListener('blur', (event) => {
     // console.log("password validate")
-   let regex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
-   let str = password.value;
-   let result = regex.test(str);
-   let passwordFeedback = document.getElementById("password-feedback");
-   let alertMsg='';
-    if(str === ''){
-        alertMsg = '*Password is Empty';
-
-    }else{
-        if(!result){
-            if(str.length < 8){
-                alertMsg='Password is smaller than 8 characters!';
-            }
-            else if(str.length >20){
-                alertMsg ='Password is greater than 20 characters!';
-            }else{
-                alertMsg="Special character is not available";
-            }
+    let regex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
+    let str = password.value;
+    let result = regex.test(str);
+    let passwordFeedback = document.getElementById("password-feedback");
+    let alertMsg = '';
+    event.stopPropagation();
+    if (str === '') {
+        console.log("string is empty");
+        alertMsg = 'Password is Empty';
         password.classList.add("is-invalid");
-        }else{
+    } else {
+        if (!result) {
+            if (str.length < 8) {
+                alertMsg = 'Password is smaller than 8 characters!';
+            } else if (str.length > 20) {
+                alertMsg = 'Password is greater than 20 characters!';
+            } else {
+                alertMsg = "Special character is not available";
+            }
+            password.classList.add("is-invalid");
+        } else {
             password.classList.remove("is-invalid");
         }
-
     }
-   passwordFeedback.innerHTML=`<b>${alertMsg}<b>`;
-    validPassword =result;
+    passwordFeedback.innerHTML = `<b>${alertMsg}<b>`;
+    validPassword = result;
 });
 
-userType.addEventListener('blur',()=>{
-    let msg= userType.value === "Select User" ? "kindly Select user type":'';
+userType.addEventListener('blur', (event) => {
+    let msg = userType.value === "Select User" ? "kindly Select user type" : '';
     let userFeedback = document.getElementById('user-feedback');
-    userFeedback.innerHTML =`<b>${msg}</b>`;
-    console.log("user blur:",msg);
+    event.stopPropagation();
+    if (userType.value === "Select User") {
+        alert("kindly Select user type");
+        validUserType = false;
+    } else {
+        validUserType = true;
+    }
+    userFeedback.innerHTML = `<b>${msg}</b>`;
+    console.log("user blur:", msg);
 });
 
-function validateAllFields(){
+let signInBtn = document.getElementById("signin");
+signInBtn.addEventListener('click', (event) => {
+    if (validUserType && validEmail && validPassword) {
+        //navigate next routing
+    } else {
+        alert("please fill the all details correctly ");
+    }
+});
 
+function closeAlertDiv(){
+    let alertDiv = document.getElementById("alert-div");
+    alertDiv.style.display = 'none';
 }
 

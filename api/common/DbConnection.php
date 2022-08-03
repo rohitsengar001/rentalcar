@@ -5,7 +5,7 @@ use mysqli;
 interface connect_interface
 {
     /**
-     * @return \mysqli $conn =>Mysqli object
+     * @return mysqli $conn =>Mysqli object
      * 😍
      */
     public static function connect(): mysqli;
@@ -29,7 +29,7 @@ class DbConnection implements connect_interface
     }
 
     // @return: connection object of database 
-    //Singleton desining pattern is applied
+    //Singleton designing pattern is applied
     public static function connect(): mysqli
     {
         //get DbConnection object 
