@@ -1,5 +1,7 @@
 <?php
-if(defined('BLOCK_DIRECT_ACCESS')){
+if (!defined('BLOCK_DIRECT_ACCESS')) {
+    header("Location: ../../../notfound.php");
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -11,7 +13,9 @@ if(defined('BLOCK_DIRECT_ACCESS')){
     <meta name="generator" content="Hugo 0.101.0">
     <title>login</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
-    <link href="../../resources/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -102,61 +106,61 @@ if(defined('BLOCK_DIRECT_ACCESS')){
     <link href="./login.css" rel="stylesheet">
 </head>
 <body class="text-center">
-
 <main class="form-signin w-100 mx-auto">
-    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert-div">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" id="alert-div">
 
-    </div>
-    <!--    <form>-->
+        </div>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
-    <img class="mb-4"
-         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToC1dXoZ2nq61L01uJ1MKUG-IvTqxjVFd-Mg&usqp=CAU"
-         alt="" width="100" height="80">
-    <h1 class="h2 mb-3 fw-normal">Please sign in</h1>
-    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="userType" name="user_type">
-        <option selected>Select User</option>
-        <option value="agency">Agency</option>
-        <option value="customer">Customer</option>
-    </select>
-    <div id="user-feedback" class="invalid-feedback">
-        invalid
-    </div>
-    <div class="form-floating">
-        <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com"
-               required autocomplete="off">
-        <label for="floatingInput">Email address</label>
-        <small id="email-feedback" class="form-text text-danger invalid-feedback">
-            <p></p>
-        </small>
-    </div>
-    <div class="form-floating">
-        <input type="password" class="form-control" id="password" name="password" placeholder="Password"
-               required autocomplete="off">
-        <label for="floatingPassword">Password</label>
-        <small id="password-feedback" class="form-text text-danger invalid-feedback">
-        </small>
+        <!--    <form>-->
 
-    </div>
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" value="remember-me"> Remember me
-        </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" onclick="onLogin();" id="signin">Sign in</button>
-    <div class="m-2">
-        <button type="button" class="btn btn-outline-primary">Registration</button>
-        <label for="registration text-"><span class="badge text-bg-success">Register Yourself</span>To Access
-            Application</label><br>
-    </div>
-    <br>
-    <br>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
-    <!--    </form>-->
+        <img class="mb-4"
+             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToC1dXoZ2nq61L01uJ1MKUG-IvTqxjVFd-Mg&usqp=CAU"
+             alt="" width="100" height="80">
+        <h1 class="h2 mb-3 fw-normal">Please sign in</h1>
+        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="userType"
+                name="user_type">
+            <option selected>Select User</option>
+            <option value="agency">Agency</option>
+            <option value="customer">Customer</option>
+        </select>
+        <div id="user-feedback" class="invalid-feedback">
+            invalid
+        </div>
+        <div class="form-floating">
+            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com"
+                   required autocomplete="off">
+            <label for="floatingInput">Email address</label>
+            <small id="email-feedback" class="form-text text-danger invalid-feedback">
+                <p></p>
+            </small>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                   required autocomplete="off">
+            <label for="floatingPassword">Password</label>
+            <small id="password-feedback" class="form-text text-danger invalid-feedback">
+            </small>
+
+        </div>
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit" name="signin" id="signin">Sign in</button>
+        <div class="m-2">
+            <button type="button" class="btn btn-outline-primary">Registration</button>
+            <label for="registration text-"><span class="badge text-bg-success">Register Yourself</span>To Access
+                Application</label><br>
+        </div>
+        <br>
+        <br>
+        <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
+        <!--    </form>-->
+    </form>
 </main>
 <script src="./login-component.js"></script>
 </body>
 </html>
 
-<?php } else{
-    header("Location: ../../../notfound.php");
-} ?>

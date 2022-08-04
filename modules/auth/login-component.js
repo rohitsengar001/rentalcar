@@ -3,13 +3,14 @@ let email = document.getElementById("email");
 let password = document.getElementById('password');
 let userType = document.getElementById('userType');
 
+let validEmail = false;
+let validPassword = false;
+let validUserType = false;
+
 (function(){
     let alertDiv = document.getElementById("alert-div");
     alertDiv.style.display='none';
 })();
-let validEmail = false;
-let validPassword = false;
-let validUserType = false;
 
 email.addEventListener("blur", (event) => {
     // console.log("event running");

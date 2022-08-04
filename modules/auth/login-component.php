@@ -1,88 +1,80 @@
 <?php
+
 namespace rentalcar\modules\auth;
 define("BLOCK_DIRECT_ACCESS", true);
 session_start();
 
-interface login_interface
-{
-    public function login();
-
-}
-
-class login_component implements login_interface
+class login_component
 {
     function __construct()
     {
-        if(isset($_SESSION['username'])){
-        echo"constructor running";
-            header("Location: ../agency/agency-component.php");
-        }else{
-            include __DIR__ . "./login-view.php";
+        if (isset($_SESSION['username'])) {
+            header("Location: ../../modules/agency/agency-component.php");
+            exit();
+        }
+        include __DIR__ . "./login-view.php";
+    }
+
+    public function sign_api($email, $password, $agency_type)
+    {
+        $data_array = [
+            "username" => $email,
+            "password" => $password
+        ];
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_PORT => "80",
+            CURLOPT_URL => "http://localhost:80/rentalcar/api/auth/agency_user.php",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "{\n\t\"email\":\"$email\",\n\t\"password\":\"$password\",\n\t\"user_type\":\"$agency_type\"\n}",
+            CURLOPT_HTTPHEADER => array(
+                "cache-control: no-cache",
+                "content-type: application/json",
+                "postman-token: 1f25b0e9-33b5-5caf-9d50-d0019741c3f5"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+        } else {
+            $data = json_decode($response, true);
+            echo "<script>console.log('" . $data['success'] . "')</script>";
+            echo "<script>console.log('" . $data['message'] . "')</script>";
+            //FOR VALID USER
+            if ($data["success"]) {
+                $_SESSION['username'] = "valid-user";
+//                header("refresh:1");
+                echo "<script>location.href='../../modules/agency/agency-component.php';</script>";
+            } else {
+                echo '<script>
+    let msg =`<?php $data["message"]?>`;
+  let child_alert_div=`<strong>${msg}</strong> You should check in on some of those fields below.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlertDiv()">
+                <span aria-hidden="true">&times;</span>
+            </button>`;
+  let alertDiv = document.getElementById("alert-div");
+    alertDiv.innerHTML=child_alert_div;
+    alertDiv.style.display = "block";
+</script>';
+
+
+            }
         }
     }
-
-    public function login()
-    {
-        $_SESSION['username'] = "valid_user";
-        echo "token set";
-    }
-
-
 }
 
 $comp = new login_component();
-//$temp=$comp->login();
-?>
-<script>
-    async function onLogin() {
-        let singinButton = document.getElementById('signin');
-        let alertDiv = document.getElementById("alert-div");
-        let username = document.getElementById('email').value;
-        let password = document.getElementById('password').value;
-        let userType =document.getElementById('userType').value;
-        alertDiv.style.display = 'none';
-        // console.log(userType,username,password);
-        let errorMsg = ``;
-        singinButton.disabled = true;
-        let data = {
-            email: username,
-            password: password,
-            user_type: userType
-        }
-        let payload = {
-            method: 'POST',
-            origin: '*',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        };
-        let url = `http://localhost/rentalcar/api/auth/agency_user.php`;
-
-        //object destructing of backend data
-        let {success, status, message, token} = await fetch(url, payload).then(res => {
-            return res.json()
-        }).then(res => {
-            return res;
-        });
-        console.log(success,message,status,token);
-
-        //VALID USER
-        if (success) {
-            let temp="<?php $comp->login();?>";
-            console.log(temp);
-            singinButton.disabled = false;
-                window.location=("http://localhost/rentalcar/modules/agency/agency-component");
-        } else {
-            // console.log("else block")
-            errorMsg = `<strong>${message}</strong> You should check in on some of those fields below.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" id="btn-alert-close" onclick="closeAlertDiv()" ></button>`
-            alertDiv.style.display = 'block';
-            alertDiv.innerHTML = errorMsg;
-           setTimeout(()=>{
-               singinButton.disabled = false;
-           },3000)
-        }
-    }
-
-</script>
+if (isset($_POST['signin'])) {
+    if (isset($_REQUEST['email']) && isset($_REQUEST['password']) && isset($_REQUEST['user_type']))
+        $comp->sign_api($_REQUEST['email'], $_REQUEST['password'], $_REQUEST['user_type']);
+}
