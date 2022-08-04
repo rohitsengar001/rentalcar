@@ -106,11 +106,12 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
     <link href="./login.css" rel="stylesheet">
 </head>
 <body class="text-center">
-<main class="form-signin w-100 mx-auto">
+
+<main class="form-signin w-100 mx-auto ">
         <div class="alert alert-warning alert-dismissible fade show" role="alert" id="alert-div">
 
         </div>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" >
 
         <!--    <form>-->
 
@@ -132,7 +133,6 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
                    required autocomplete="off">
             <label for="floatingInput">Email address</label>
             <small id="email-feedback" class="form-text text-danger invalid-feedback">
-                <p></p>
             </small>
         </div>
         <div class="form-floating">
@@ -150,7 +150,7 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit" name="signin" id="signin">Sign in</button>
         <div class="m-2">
-            <button type="button" class="btn btn-outline-primary">Registration</button>
+            <a class="btn btn-outline-primary" href="./register/register_component.php">Registration</a>
             <label for="registration text-"><span class="badge text-bg-success">Register Yourself</span>To Access
                 Application</label><br>
         </div>
