@@ -10,7 +10,7 @@ class register_component
         include './register_view.php';
     }
 
-    public function postData($email, $password, $phone, $address1, $address2 , $city , $state , $country,$zipcode)
+    public function postData($email, $password, $phone, $address1, $address2, $city, $state, $country, $zipcode)
     {
 
 
@@ -41,10 +41,10 @@ class register_component
         if ($err) {
             echo "cURL Error #:" . $err;
         } else {
-            $res= json_decode($response,true);
+            $res = json_decode($response, true);
             echo "<script>console.log('" . $res['success'] . "')</script>";
             //VALID USERNAME
-            if($res["success"]){
+            if ($res["success"]) {
                 echo '<script>
                     let child_alert_div=`<strong>Register</strong> You should check in on some of those fields below.
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlertDiv()">
@@ -53,9 +53,9 @@ class register_component
                     alertDiv.innerHTML=child_alert_div;
                     alertDiv.style.display = "block";
                 </script>';
-            }else{
+            } else {
                 echo '<script>
-                    let child_alert_div=`<strong>"'.$res["message"].'"</strong> You should check in on some of those fields below.
+                    let child_alert_div=`<strong>"' . $res["message"] . '"</strong> You should check in on some of those fields below.
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlertDiv()">
                                         <span aria-hidden="true">&times;</span>
                                          </button>`;
@@ -72,10 +72,10 @@ class register_component
 }
 
 $comp = new register_component();
-if(isset($_POST['register-btn'])){
-    if(!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['phone']) && !empty($_POST['address1'])){
-        $comp->postData($_POST['email'],$_POST['password'],$_POST['phone'],$_POST['address1'],$_POST['address2'],$_POST['city'],$_POST['state'],$_POST['country'],$_POST['zipcode']);
-    }else{
+if (isset($_POST['register-btn'])) {
+    if (!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['phone']) && !empty($_POST['address1'])) {
+        $comp->postData($_POST['email'], $_POST['password'], $_POST['phone'], $_POST['address1'], $_POST['address2'], $_POST['city'], $_POST['state'], $_POST['country'], $_POST['zipcode']);
+    } else {
         echo "Request Failed";
     }
 }

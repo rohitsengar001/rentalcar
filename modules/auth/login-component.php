@@ -57,17 +57,17 @@ class login_component
                 echo "<script>location.href='../../modules/agency/agency-component.php';</script>";
             } else {
                 echo '<script>
-    let msg =`<?php $data["message"]?>`;
-  let child_alert_div=`<strong>${msg}</strong> You should check in on some of those fields below.
+  let child_alert_div=`<strong>"'.$data['message'].'"</strong> You should check in on some of those fields below.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlertDiv()">
                 <span aria-hidden="true">&times;</span>
             </button>`;
   let alertDiv = document.getElementById("alert-div");
     alertDiv.innerHTML=child_alert_div;
     alertDiv.style.display = "block";
+    setTimeout(()=>{
+        alertDiv.style.display="none";
+    },2000);
 </script>';
-
-
             }
         }
     }

@@ -3,6 +3,7 @@
 namespace rentalcar\api\agency;
 include '../common/DbConnection.php';
 
+use Exception;
 use mysqli_sql_exception;
 use rentalcar\api\common\DbConnection;
 
@@ -86,19 +87,17 @@ class postcar_api
         } elseif (!$this->filter_token($this->token)) {
             $return_data = $this->msg(0, 404, "YOU'RE NOT VALID USER");
         } else {
-            //UPLOADED FILE AT SERVER'S SPECIFIES FOLDER
-            move_uploaded_file($this->temp_file_name, $this->image_destination);
+            try {
 
             //WRITE QUERY FOR INSERTING THE RESULT INTO DBMS
             $query = $this->conn->prepare('INSERT INTO post_cars(username, vehicle_model, vehicle_number, seating_capacity, image_destination, token) VALUE(?,?,?,?,?,?)');
             $query->bind_param("ssssss", $this->username, $this->vehicle_model, $this->vehicle_number, $this->seating_capacity, $this->image_destination, $this->token);
-            try {
                 if ($query->execute()) {
                     $return_data = $this->msg(1, 200, "YOUR POST SUCCESSFULLY SAVED!");
                 }else{
                     $return_data =$this->msg(0,404,"DUPLICATE VEHICLE NUMBER!");
                 }
-            }catch (mysqli_sql_exception $e){
+            }catch (Exception $e){
                 $return_data = $this->msg(0,404,$e);
             }
         }
