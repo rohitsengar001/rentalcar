@@ -124,7 +124,7 @@ if (isset($_POST['post-btn'])) {
         $file_name = $file['name'];
         $temp_file_name = $file['tmp_name'];
         $file_error = $file['error'];
-        $username = "test@gmail.com";
+        $username = $_SESSION['username'];
         $token = "valid-user";
         $image_destination = 'C:/xampp/htdocs/rentalcar/upload/' . $file_name;
 

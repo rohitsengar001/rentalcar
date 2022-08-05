@@ -52,12 +52,12 @@ class login_component
             echo "<script>console.log('" . $data['message'] . "')</script>";
             //FOR VALID USER
             if ($data["success"]) {
-                $_SESSION['username'] = "valid-user";
+                $_SESSION['username'] = $data['token'];
 //                header("refresh:1");
                 echo "<script>location.href='../../modules/agency/agency-component.php';</script>";
             } else {
                 echo '<script>
-  let child_alert_div=`<strong>"'.$data['message'].'"</strong> You should check in on some of those fields below.
+  let child_alert_div=`<strong>"' . $data['message'] . '"</strong> You should check in on some of those fields below.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlertDiv()">
                 <span aria-hidden="true">&times;</span>
             </button>`;

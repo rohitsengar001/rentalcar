@@ -18,7 +18,7 @@
 <body>
 <!--   NAVBAR-CONTAINER-->
     <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #b7d02d;">
             <!-- Navbar content -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
