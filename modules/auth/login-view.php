@@ -163,4 +163,3 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
 <script src="./login-component.js"></script>
 </body>
 </html>
-
