@@ -90,8 +90,8 @@ class postcar_api
             try {
 
             //WRITE QUERY FOR INSERTING THE RESULT INTO DBMS
-            $query = $this->conn->prepare('INSERT INTO post_cars(username, vehicle_model, vehicle_number, seating_capacity, image_destination, token) VALUE(?,?,?,?,?,?)');
-            $query->bind_param("ssssss", $this->username, $this->vehicle_model, $this->vehicle_number, $this->seating_capacity, $this->image_destination, $this->token);
+            $query = $this->conn->prepare('INSERT INTO post_cars(username, vehicle_model, vehicle_number, seating_capacity,filename, image_destination, token) VALUE(?,?,?,?,?,?,?)');
+            $query->bind_param("sssssss", $this->username, $this->vehicle_model, $this->vehicle_number, $this->seating_capacity,$this->filename, $this->image_destination, $this->token);
                 if ($query->execute()) {
                     $return_data = $this->msg(1, 200, "YOUR POST SUCCESSFULLY SAVED!");
                 }else{
