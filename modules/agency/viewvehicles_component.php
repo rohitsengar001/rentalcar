@@ -99,6 +99,7 @@ $receive_data = $comp->getData();
     <div class="row row-cols-1 row-cols-md-2">
         <!--        CARD START-->
         <?php
+         $index=0;
          foreach ($receive_data as $data){
         ?>
         <div class="col mb-4">
@@ -113,12 +114,12 @@ $receive_data = $comp->getData();
                     </ul>
                     <a href="#" class="card-link btn btn-primary"><i class="bi bi-pencil-square btn btn-primary"
                                                                      data-toggle="modal"
-                                                                     data-target="#editModal"></i> </a>
+                                                                     data-target="#editModal-<?= $index?>"></i> </a>
                     <a href="#" class="card-link btn btn-primary"><i class="bi bi-trash-fill btn btn-danger"></i></a>
                 </div>
             </div>
             <!--            EDIT MODAL-->
-            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal fade" id="editModal-<?= $index?>" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -135,7 +136,7 @@ $receive_data = $comp->getData();
                                 <div class="form-group">
                                     <label for="vehicleModal" class="col-form-label">Vehicle Modal</label>
                                     <input type="text" class="form-control text-uppercase" id="vehicleModal"
-                                           name="vehicle-modal" required minlength="3" maxlength="40">
+                                           name="vehicle-modal" required minlength="3" maxlength="40" value="<?= $data[0]?>">
                                     <div class="invalid-feedback">
                                         please write Correct Model Name
                                     </div>
@@ -143,7 +144,7 @@ $receive_data = $comp->getData();
                                 <div class="form-group">
                                     <label for="vehicleNumber" class="col-form-label">Vehicle Number</label>
                                     <input type="text" class="form-control text-uppercase" id="vehicleNumber"
-                                           name="vehicle-number" required minlength="7" maxlength="8"></input>
+                                           name="vehicle-number" required minlength="7" maxlength="8" value="<?= $data[1]?>"></input>
                                     <div class="invalid-feedback">
                                         Required Min Length:7 , Max:8
                                     </div>
@@ -152,7 +153,7 @@ $receive_data = $comp->getData();
                                     <label for="rentPerDay" class="col-form-label">Rent Per Day</label>
                                     <input type="number" class="form-control" id="rentPerDay" name="rent-per-day"
                                            required
-                                           min="100"></input>
+                                           min="100" value="<?= $data[2]?>"></input>
                                     <div class="invalid-feedback">
                                         required!
                                     </div>
@@ -186,8 +187,8 @@ $receive_data = $comp->getData();
                                     </div>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="carImage"
-                                               aria-describedby="inputGroupFileAddon03" name="car-image" required>
-                                        <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+                                               aria-describedby="inputGroupFileAddon03" name="car-image" required value="<?= $data[0]?>">
+                                        <label class="custom-file-label" for="inputGroupFile03" >Choose file</label>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -203,7 +204,7 @@ $receive_data = $comp->getData();
             <!--            EDIT MODAL END-->
         </div>
         <!--        CARD-END-->
-        <?php }?>
+        <?php $index++;}?>
     </div>
 </div>
 <!--    CONTENT END-->
