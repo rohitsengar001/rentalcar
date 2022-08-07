@@ -66,7 +66,7 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
                 <div class="card-body bg-light shadow-lg">
                     <h5 class="card-title">Check Posted Vehicles <i class="bi bi-eyeglasses "></i></h5>
                     <p class="card-text">Easily Track Your All Posts.</p>
-                    <a href="#" class="btn btn-primary">View Vehicles</a>
+                    <a href="./viewvehicles_component.php" class="btn btn-primary">View Vehicles</a>
                 </div>
             </div>
         </div>

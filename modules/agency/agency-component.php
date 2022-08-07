@@ -1,10 +1,13 @@
 <?php
 
 namespace rental\modules\agency;
+include_once '../common/common_utility.php';
+use rentalcar\modules\common\common_utility;
+
 session_start();
 define("BLOCK_DIRECT_ACCESS", true);
 
-class agency_component
+class agency_component extends common_utility
 {
     function __construct()
     {
@@ -75,35 +78,6 @@ class agency_component
             $this->alert_message($res);
         }
     }
-
-    public function alert_message($data)
-    {
-        if (!$data->success) {
-            echo '
-        <script>
-            let alertDiv = document.getElementById("alert-div");
-            let child_alert_div=`<strong>"' . $data->message . '"</strong> You should check in on some of those fields below.
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlertDiv()">
-                                        <span aria-hidden="true">&times;</span>
-                                         </button>`;
-                    alertDiv.innerHTML=child_alert_div;
-                    alertDiv.style.display = "block";
-           
-        </script>
-        ';
-
-        }
-        echo "<script>
-            setTimeout(()=>{
-                window.location = 'http://localhost/rentalcar/modules/agency/agency-component.php';
-             },1000)
-            </script>";
-    }
-
-    public function msg_console($msg)
-    {
-        echo "<script>console.log('.$msg.')</script>";
-    }
 }
 
 //INSTANTIATING THE OBJECT
@@ -146,6 +120,8 @@ if (isset($_POST['post-btn'])) {
             move_uploaded_file($temp_file_name, $image_destination);
 //            echo "move_upload_file : success";
             $agency_component->post_data_api($payload);
+        }else{
+            $agency_component->alert_message(json_decode(json_encode(["success"=>0,"status"=>404,"message"=>"FILE EXTENSION IS NOT VALID","0"=>"jpeg","1"=>"png","2"=>"jpg"])));
         }
     } else {
         echo "Request Failed";
