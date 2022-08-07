@@ -21,34 +21,8 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
 <body>
 <!-- JavaScript Bundle with Popper -->
 <div class="container-fluid">
-    <!--      NAVBAR-->
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #b7d02d;">
-        <!-- Navbar content -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
-                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand" href="#"><span class="text-danger font-weight-bold shadow-sm">CarRental</span></a>
-
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="../login-component.php">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled">Disabled</a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                <a href="./../auth/logout.php" class="btn btn-danger m-2">Logout</a>
-            </form>
-        </div>
-    </nav>
+<!--    NAVBAR START-->
+    <?php include '../common/navbar.php';?>
     <!-- NAVBAR END-->
     <div class="alert bg-dark text-light" role="alert">
         <h4 class="alert-heading">Welcome dashboard!</h4>
@@ -79,6 +53,24 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
             </div>
         </div>
         <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body bg-light shadow-lg">
+                    <h5 class="card-title">Check Your Booking <i class="bi bi-airplane-engines-fill"></i></h5>
+                    <p class="card-text">Easily Track your Booking.</p>
+                    <a href="#" class="btn btn-primary">Show Booking</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mt-4">
+            <div class="card">
+                <div class="card-body bg-light shadow-lg">
+                    <h5 class="card-title">Check Posted Vehicles <i class="bi bi-eyeglasses "></i></h5>
+                    <p class="card-text">Easily Track Your All Posts.</p>
+                    <a href="#" class="btn btn-primary">View Vehicles</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mt-4">
             <div class="card">
                 <div class="card-body bg-light shadow-lg">
                     <h5 class="card-title">Check Your Booking <i class="bi bi-airplane-engines-fill"></i></h5>
