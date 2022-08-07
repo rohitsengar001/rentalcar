@@ -52,7 +52,7 @@ class common_utility implements utilty
         echo "<script>
             setTimeout(()=>{
                 window.location = 'http://localhost/rentalcar/modules/agency/agency-component.php';
-             },2000)
+             },5000)
             </script>";
     }
 
