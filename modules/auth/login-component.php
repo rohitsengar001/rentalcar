@@ -9,7 +9,7 @@ class login_component
     function __construct()
     {
         if (isset($_SESSION['username'])) {
-            header("Location: ../../modules/agency/agency-component.php",true,301);
+            header("Location: ../../modules/agency/agency-component",true,301);
             exit();
         }
         include __DIR__ . "./login-view.php";
@@ -54,7 +54,7 @@ class login_component
             if ($data["success"]) {
                 $_SESSION['username'] = $data['token'];
 //                header("refresh:1");
-                header("Location: ../../modules/agency/agency-component.php",true,301);
+                header("Location: ../../modules/agency/agency-component",true,301);
 //                echo "<script>location.href='../../modules/agency/agency-component.php';</script>";
             } else {
                 echo '<script>
