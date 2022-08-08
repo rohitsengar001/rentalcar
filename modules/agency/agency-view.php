@@ -104,9 +104,9 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
                         </div>
                         <div class="form-group">
                             <label for="vehicleNumber" class="col-form-label">Vehicle Number</label>
-                            <input type="text" class="form-control text-uppercase" id="vehicleNumber" name="vehicle-number" required minlength="7" maxlength="8"></input>
+                            <input type="text" class="form-control text-uppercase" id="vehicleNumber" name="vehicle-number" required minlength="10" maxlength="10"></input>
                             <div class="invalid-feedback">
-                                Required Min Length:7 , Max:8
+                                At Least 10 Character is required
                             </div>
                         </div>
                         <div class="form-group">

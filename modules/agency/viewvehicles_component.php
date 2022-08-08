@@ -99,112 +99,122 @@ $receive_data = $comp->getData();
     <div class="row row-cols-1 row-cols-md-2">
         <!--        CARD START-->
         <?php
-         $index=0;
-         foreach ($receive_data as $data){
-        ?>
-        <div class="col mb-4">
-            <div class="card">
-                <img src="../../upload/<?= $data[4] ?>" style="max-height: 150px" alt="...">
-                <div class="card-body text-center">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Vehicle Modal : <?= $data[0]?></li>
-                        <li class="list-group-item">Vehicle Number :<?= $data[1]?></li>
-                        <li class="list-group-item">Seating Capacity:<?= $data[2]?></li>
-                        <li class="list-group-item">Seating Capacity:<?= $data[3]?></li>
-                    </ul>
-                    <a href="#" class="card-link btn btn-primary"><i class="bi bi-pencil-square btn btn-primary"
-                                                                     data-toggle="modal"
-                                                                     data-target="#editModal-<?= $index?>"></i> </a>
-                    <a href="#" class="card-link btn btn-primary"><i class="bi bi-trash-fill btn btn-danger"></i></a>
+        $index = 0;
+        foreach ($receive_data as $data) {
+            ?>
+            <div class="col mb-4">
+                <div class="card">
+                    <img src="../../upload/<?= $data[4] ?>" style="max-height: 150px" alt="...">
+                    <div class="card-body text-center">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Vehicle Modal : <?= $data[0] ?></li>
+                            <li class="list-group-item">Vehicle Number :<?= $data[1] ?></li>
+                            <li class="list-group-item">Seating Capacity:<?= $data[2] ?></li>
+                            <li class="list-group-item">Rent Per Day:<?= $data[5] ?></li>
+                        </ul>
+                        <a href="#" class="card-link btn btn-primary"><i class="bi bi-pencil-square btn btn-primary"
+                                                                         data-toggle="modal"
+                                                                         data-target="#editModal-<?= $index ?>"></i>
+                        </a>
+                        <a href="#" class="card-link btn btn-primary"><i
+                                    class="bi bi-trash-fill btn btn-danger"></i></a>
+                    </div>
                 </div>
-            </div>
-            <!--            EDIT MODAL-->
-            <div class="modal fade" id="editModal-<?= $index?>" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="<?php echo($_SERVER["PHP_SELF"]); ?>" method="post"
-                                  enctype="multipart/form-data"
-                                  class="was-validated">
+                <!--            EDIT MODAL-->
+                <div class="modal fade" id="editModal-<?= $index ?>" tabindex="-1" aria-labelledby="editModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Update Vehicle Information</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="<?php echo($_SERVER["PHP_SELF"]); ?>" method="post"
+                                      enctype="multipart/form-data"
+                                      class="was-validated">
 
-                                <div class="form-group">
-                                    <label for="vehicleModal" class="col-form-label">Vehicle Modal</label>
-                                    <input type="text" class="form-control text-uppercase" id="vehicleModal"
-                                           name="vehicle-modal" required minlength="3" maxlength="40" value="<?= $data[0]?>">
-                                    <div class="invalid-feedback">
-                                        please write Correct Model Name
+                                    <div class="form-group">
+                                        <label for="vehicleModal" class="col-form-label">Vehicle Modal</label>
+                                        <input type="text" class="form-control text-uppercase" id="vehicleModal"
+                                               name="vehicle-modal" required minlength="3" maxlength="40"
+                                               value="<?= $data[0] ?>">
+                                        <div class="invalid-feedback">
+                                            please write Correct Model Name
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="vehicleNumber" class="col-form-label">Vehicle Number</label>
-                                    <input type="text" class="form-control text-uppercase" id="vehicleNumber"
-                                           name="vehicle-number" required minlength="7" maxlength="8" value="<?= $data[1]?>"></input>
-                                    <div class="invalid-feedback">
-                                        Required Min Length:7 , Max:8
+                                    <div class="form-group">
+                                        <label for="vehicleNumber" class="col-form-label">Vehicle Number</label>
+                                        <input type="text" class="form-control text-uppercase" id="vehicleNumber"
+                                               name="vehicle-number" required minlength="7" maxlength="8"
+                                               value="<?= $data[1] ?>"></input>
+                                        <div class="invalid-feedback">
+                                            Required Min Length:7 , Max:8
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="rentPerDay" class="col-form-label">Rent Per Day</label>
-                                    <input type="number" class="form-control" id="rentPerDay" name="rent-per-day"
-                                           required
-                                           min="100" value="<?= $data[2]?>"></input>
-                                    <div class="invalid-feedback">
-                                        required!
+                                    <div class="form-group">
+                                        <label for="rentPerDay" class="col-form-label">Rent Per Day</label>
+                                        <input type="number" class="form-control" id="rentPerDay" name="rent-per-day"
+                                               required
+                                               min="100" value="<?= $data[5] ?>">
+                                        <div class="invalid-feedback">
+                                            required!
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <label class="input-group-text" for="seatingCapacity">Seating Capacity</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="seatingCapacity">Seating
+                                                Capacity</label>
+                                        </div>
+
+                                        <select class="custom-select" id="seatingCapacity" name="seating-capacity">
+                                            <option value="1" <?php if ($data[2] == 1) echo "selected"; ?>>One</option>
+                                            <option value="2" <?php if ($data[2] == 2) echo "selected"; ?>>Two</option>
+                                            <option value="3" <?php if ($data[2] == 3) echo "selected"; ?>>Three
+                                            </option>
+                                            <option value="4" <?php if ($data[2] == 4) echo "selected"; ?>>Four</option>
+                                            <option value="6" <?php if ($data[2] == 6) echo "selected"; ?>>Five</option>
+                                            <option value="7" <?php if ($data[2] == 7) echo "selected"; ?>>Six</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Required!
+                                        </div>
                                     </div>
 
-                                    <select class="custom-select" id="seatingCapacity" name="seating-capacity" required>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                        <option value="4">Four</option>
-                                        <option value="6">Five</option>
-                                        <option value="7">Six</option>
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        Required!
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                    id="inputGroupFileAddon03"
+                                                    data-toggle="tooltip" data-placement="top"
+                                                    title="jpeg,jpg and png format only">
+                                                Upload Vehicle Image <i class="bi bi-info-circle-fill"></i>
+                                            </button>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="carImage"
+                                                   aria-describedby="inputGroupFileAddon03" name="car-image" required
+                                                   value="<?=$data[4]?>"  accept=".jpg, .jpeg, .png">
+                                            <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <button class="btn btn-outline-secondary" type="button"
-                                                id="inputGroupFileAddon03"
-                                                data-toggle="tooltip" data-placement="top"
-                                                title="jpeg,jpg and png format only">
-                                            Upload Vehicle Image <i class="bi bi-info-circle-fill"></i>
+                                    <div class="modal-footer">
+                                        <!--                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE
                                         </button>
+                                        <button class="btn btn-primary" name="post-btn">UPDATE</button>
                                     </div>
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="carImage"
-                                               aria-describedby="inputGroupFileAddon03" name="car-image" required value="<?= $data[0]?>">
-                                        <label class="custom-file-label" for="inputGroupFile03" >Choose file</label>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <!--                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
-                                    <button class="btn btn-primary" name="post-btn">UPDATE</button>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!--            EDIT MODAL END-->
             </div>
-            <!--            EDIT MODAL END-->
-        </div>
-        <!--        CARD-END-->
-        <?php $index++;}?>
+            <!--        CARD-END-->
+            <?php $index++;
+        } ?>
     </div>
 </div>
 <!--    CONTENT END-->
