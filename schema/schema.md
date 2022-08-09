@@ -11,3 +11,6 @@
   ![image](https://user-images.githubusercontent.com/39033056/183602902-6fd0f8ff-9d6a-4f23-a331-2cff9e1cfea2.png)
 
   - Select Downloaded `rental_car.sql` file
+  
+  ![image](https://user-images.githubusercontent.com/39033056/183604844-d36d67ec-c936-4977-9408-3018af79353b.png)
+
