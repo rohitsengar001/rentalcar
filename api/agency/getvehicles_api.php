@@ -56,7 +56,7 @@ class getcars_api implements get_api
         if($res->num_rows>0)
             $return_data=$res->fetch_all(MYSQLI_NUM);
         else
-            $return_data=$this->msg(1,200,"No Data Found");
+            $return_data=[$this->msg(0,200,"No Data Found")];
         return $return_data;
     }
 

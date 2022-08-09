@@ -29,7 +29,10 @@ class viewvehicles_component extends common_utility
      */
     public function getData(): array
     {
-        return $this->data;
+        if(isset($this->data))
+            return $this->data;
+        return [];
+
     }
 
 
@@ -64,7 +67,7 @@ class viewvehicles_component extends common_utility
         } else {
 //            echo $response;
             $res = json_decode($response);
-            $this->data = $res;
+                $this->data = $res;
 //            $this->msg_console($response);
         }
     }
@@ -109,6 +112,41 @@ class viewvehicles_component extends common_utility
             $this->redirect_url("http://localhost/rentalcar/modules/agency/viewvehicles_component.php");
         }
     }
+
+    //DELETE DATA BY CALLING DELETE API
+    public function delete_data($username,$vehicle_id){
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_PORT => "80",
+            CURLOPT_URL => "http://localhost:80/rentalcar/api/agency/delete_api.php",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "{\n\t\"username\":\"$username\",\n\t\"vehicle_id\":\"$vehicle_id\"\n}",
+            CURLOPT_HTTPHEADER => array(
+                "cache-control: no-cache",
+                "content-type: application/json",
+                "postman-token: 3608244d-afa5-29a8-06c8-f19bbe445285"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+        } else {
+            echo $response;
+            $this->redirect_url("http://localhost/rentalcar/modules/agency/viewvehicles_component.php");
+        }
+    }
 }
 
 $comp = new viewvehicles_component();
@@ -116,6 +154,7 @@ $comp = new viewvehicles_component();
 //RETURN ARRAY OF VEHICLES DATA
 $receive_data = $comp->getData();
 
+//CLICK ON UPDATE BUTTON INSIDE THE UPDATE MODAL
 if (isset($_POST['update-btn'])) {
     if (!empty($_POST['vehicle_modal']) && !empty($_POST['vehicle_number']) && !empty($_POST['rent_per_day']) && !empty($_POST['seating_capacity'])) {
 
@@ -181,6 +220,13 @@ if (isset($_POST['update-btn'])) {
         echo "Request Failed";
     }
 }
+
+// ON CLICK OF DELETE BUTTON FROM THE DELETE MODAL
+if(isset($_POST['delete-btn'])){
+    $comp->msg_console("delete-btn-click");
+    unlink($_POST['delete_vehicle_destination']);
+    $comp->delete_data($_SESSION['username'],$_POST['vehicle_id_delete']);
+}
 ?>
 
 
@@ -219,17 +265,18 @@ if (isset($_POST['update-btn'])) {
                     <img src="../../upload/<?= $data[4] ?>" style="max-height: 150px" alt="...">
                     <div class="card-body text-center">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Vehicle Modal : <?=strtoupper( $data[0]) ?></li>
+                            <li class="list-group-item">Vehicle Modal : <?= strtoupper($data[0]) ?></li>
                             <li class="list-group-item">Vehicle Number :<?= strtoupper($data[1]) ?></li>
                             <li class="list-group-item">Seating Capacity:<?= $data[2] ?></li>
                             <li class="list-group-item">Rent Per Day:<?= $data[5] ?></li>
                         </ul>
-                        <a href="#" class="card-link btn btn-primary"><i class="bi bi-pencil-square btn btn-primary"
-                                                                         data-toggle="modal"
-                                                                         data-target="#editModal-<?= $index ?>"></i>
+                        <a href="#" class="card-link btn btn-primary">
+                            <i class="bi bi-pencil-square btn btn-primary" data-toggle="modal"
+                               data-target="#editModal-<?= $index ?>"></i>
                         </a>
-                        <a href="#" class="card-link btn btn-primary"><i
-                                    class="bi bi-trash-fill btn btn-danger"></i></a>
+                        <a href="#" class="card-link btn btn-primary">
+                            <i class="bi bi-trash-fill btn btn-danger" data-toggle="modal" data-target="#deleteModal-<?= $index?>"></i>
+                        </a>
                     </div>
                 </div>
                 <!--            EDIT MODAL-->
@@ -270,7 +317,7 @@ if (isset($_POST['update-btn'])) {
                                     <div class="form-group">
                                         <input type="text" class="form-control text-uppercase" id="oldVehicleNumber"
                                                name="old_vehicle_number" required minlength="10" maxlength="10"
-                                               value="<?= $data[1] ?>" hidden></input>
+                                               value="<?= $data[1] ?>" hidden>
                                         <div class="invalid-feedback">
                                             Required Valid 10 alphabet
                                         </div>
@@ -350,6 +397,48 @@ if (isset($_POST['update-btn'])) {
                     </div>
                 </div>
                 <!--            EDIT MODAL END-->
+
+                <!--                DELETE MODEL START-->
+                <!-- Modal -->
+                <div class="modal fade" id="deleteModal-<?= $index?>" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">Delete Vehicle</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="<?php echo($_SERVER["PHP_SELF"]); ?>" method="post">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="vehicleIdDelete"
+                                               name="vehicle_id_delete" hidden value="<?= $data[6] ?>">
+                                        <div class="invalid-feedback">
+                                            required!
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="deleteVehicleDestination"
+                                               name="delete_vehicle_destination" hidden value="<?= $data[3] ?>">
+                                        <div class="invalid-feedback">
+                                            required!
+                                        </div>
+                                    </div>
+                                    <h3>Are You Sure to delete this record</h3>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" class="btn btn-danger" name="delete-btn">Delete</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--                DELETE MODEL END-->
             </div>
             <!--        CARD-END-->
             <?php $index++;
