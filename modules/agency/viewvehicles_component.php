@@ -106,6 +106,7 @@ class viewvehicles_component extends common_utility
             echo "<script>console.log('.$response.')</script>";
             echo "<script>console.log('update-btn clicked')</script>";
 //            $this->alert_message($res);
+            $this->redirect_url("http://localhost/rentalcar/modules/agency/viewvehicles_component.php");
         }
     }
 }
@@ -218,8 +219,8 @@ if (isset($_POST['update-btn'])) {
                     <img src="../../upload/<?= $data[4] ?>" style="max-height: 150px" alt="...">
                     <div class="card-body text-center">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Vehicle Modal : <?= $data[0] ?></li>
-                            <li class="list-group-item">Vehicle Number :<?= $data[1] ?></li>
+                            <li class="list-group-item">Vehicle Modal : <?=strtoupper( $data[0]) ?></li>
+                            <li class="list-group-item">Vehicle Number :<?= strtoupper($data[1]) ?></li>
                             <li class="list-group-item">Seating Capacity:<?= $data[2] ?></li>
                             <li class="list-group-item">Rent Per Day:<?= $data[5] ?></li>
                         </ul>
