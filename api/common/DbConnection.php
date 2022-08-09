@@ -54,7 +54,7 @@ class DbConnection implements connect_interface
                 'localhost',
                 'root'
                 , ''
-                , 'rentalcar'
+                , 'rental_car'
             );
         }
         return self::$class_instance;

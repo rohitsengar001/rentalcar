@@ -47,7 +47,7 @@ class getcars_api implements get_api
     public function get_all_cars($token): array
     {
         $return_data = [];
-        $sql = "SELECT  vehicle_model, vehicle_number, seating_capacity, image_destination,filename,rent_per_day FROM post_cars WHERE username = '{$token}' ";
+        $sql = "SELECT  vehicle_model, vehicle_number, seating_capacity, image_destination,filename,rent_per_day,vehicle_id FROM post_cars WHERE username = '{$token}' ";
         try {
             $res = $this->conn->query($sql);
         } catch (Exception $e) {
