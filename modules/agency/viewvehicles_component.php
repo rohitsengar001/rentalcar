@@ -262,7 +262,7 @@ if(isset($_POST['delete-btn'])){
             ?>
             <div class="col mb-4">
                 <div class="card">
-                    <img src="../../upload/<?= $data[4] ?>" style="max-height: 150px" alt="...">
+                    <img src="../../upload/<?= $data[4] ?>" style="height: 280px" alt="..." >
                     <div class="card-body text-center">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">Vehicle Modal : <?= strtoupper($data[0]) ?></li>
