@@ -70,7 +70,19 @@ class common_utility implements utilty
         echo "<script>
             setTimeout(()=>{
                 window.location = '{$url}';
-             },1000)
+             },3000)
             </script>";
     }
+    public function alert_box_danger($msg){
+        echo '<div class="alert alert-danger text-center top-50" role="alert">
+                            <i class="bi bi-exclamation-octagon-fill"></i>'.$msg.'
+                       </div>';
+    }
+
+    public function alert_box_success($msg){
+        echo '<div class="alert alert-success text-center top-50" role="alert">
+                            <i class="bi bi-exclamation-octagon-fill"></i>"'.$msg.'"
+                       </div>';
+    }
+
 }
