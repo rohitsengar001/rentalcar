@@ -4,6 +4,7 @@ namespace rentalcar\modules\customer;
 include 'C:\xampp\htdocs\rentalcar\modules\common\common_utility.php';
 define("DIRECT_BLOCK_ACCESS",true);
 use rentalcar\modules\common\common_utility;
+session_start();
 
 
 class customer_component extends common_utility
@@ -51,7 +52,7 @@ class customer_component extends common_utility
         }
     }
     function load_view($data){
-        include "./view.php";
+        include "./customer_view.php";
         load($data);
     }
 }

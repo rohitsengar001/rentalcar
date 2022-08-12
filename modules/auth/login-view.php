@@ -15,7 +15,8 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -149,9 +150,18 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
             </label>
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit" name="signin" id="signin">Sign in</button>
-        <div class="m-2">
-            <a class="btn btn-outline-primary" href="./register/register_component.php">Registration</a>
-            <label for="registration text-"><span class="badge text-bg-success">Register Yourself</span>To Access
+        <div class="m-2" >
+<!--            <a class="btn btn-outline-primary" href="./register/customer_register.php" id="regBtn">Registration</a>-->
+            <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Registration
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="./register/register_component.php">Agency Registration</a></li>
+                    <li><a class="dropdown-item" href="./register/customer_registration_component.php">Customer Registration</a></li>
+                </ul>
+            </div>
+            <label for="regBtn"><span class="badge text-bg-success">Register Yourself</span>To Access
                 Application</label><br>
         </div>
         <br>
@@ -161,5 +171,7 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
     </form>
 </main>
 <script src="./login-component.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+<!-- JavaScript Bundle with Popper -->
 </body>
 </html>
