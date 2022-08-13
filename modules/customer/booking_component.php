@@ -57,7 +57,7 @@ class booking_component extends common_utility
         return $this->data;
     }
 
-    function load_view(): void
+    public function load_view(): void
     {
         include './booking_view.php';
     }
