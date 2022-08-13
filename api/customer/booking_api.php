@@ -17,7 +17,6 @@ class booking_api extends api_utility
 {
     private $vehicle_id;
     private $customer_id;
-    private $days;
     private $booking_date;
     private $billing_amount;
     private mysqli $conn;
@@ -26,19 +25,16 @@ class booking_api extends api_utility
      * @param $vehicle_id
      * @param $customer_id
      * @param $booking_date
-     * @param $days
      * @param $billing_amount
      */
-    public function __construct($vehicle_id, $customer_id, $booking_date, $days, $billing_amount)
+    public function __construct($vehicle_id, $customer_id, $booking_date, $billing_amount)
     {
         $this->vehicle_id = $vehicle_id;
         $this->customer_id = $customer_id;
         $this->booking_date = $booking_date;
-        $this->days = $days;
         $this->billing_amount = $billing_amount;
         $this->conn = DbConnection::connect();
     }
-
 
     public function booked_vehicle(): array
     {
@@ -48,12 +44,10 @@ class booking_api extends api_utility
         if ((!isset($this->vehicle_id))
             || (!isset($this->customer_id))
             || (!isset($this->booking_date))
-            || (!isset($this->days))
             || (!isset($this->billing_amount))
             || (empty(trim($this->vehicle_id)))
             || (empty(trim($this->customer_id)))
             || (empty(trim($this->booking_date)))
-            || (empty(trim($this->days)))
             || (empty(trim($this->billing_amount)))
         ) {
             $fields = ["vehicle_id", "customer_id", "days", "booking_date", "billing_amount"];
@@ -65,8 +59,8 @@ class booking_api extends api_utility
         elseif (!$this->is_vehicle_exist($this->conn, $this->vehicle_id)) {
             $return_data = $this->msg(0, 404, 'VEHICLE IS NOT EXIST!');
         } else {
-            $query = $this->conn->prepare("INSERT INTO booking(customer_id, vehicle_id, days,booking_date, billing_amount) VALUES(?,?,?,?,?)");
-            $query->bind_param('sssss', $this->customer_id, $this->vehicle_id, $this->days, $this->booking_date, $this->billing_amount);
+            $query = $this->conn->prepare("INSERT INTO booking(customer_id, vehicle_id,booking_date, billing_amount) VALUES(?,?,?,?)");
+            $query->bind_param('ssss', $this->customer_id, $this->vehicle_id, $this->booking_date, $this->billing_amount);
             if ($query->execute()) {
                 $return_data = $this->msg(1, 200, "VEHICLE SUCCESSFULLY BOOKED!");
             } else {
@@ -79,5 +73,10 @@ class booking_api extends api_utility
 }
 
 $receive_data = json_decode(file_get_contents("php://input"));
-$comp = new booking_api($receive_data->vehicle_id, $receive_data->customer_id, $receive_data->booking_date, $receive_data->days, $receive_data->billing_amount);
-echo json_encode($comp->booked_vehicle());
+$res=[];
+for ($i = 0; $i < $receive_data->days; $i++) {
+    $comp = new booking_api($receive_data->vehicle_id, $receive_data->customer_id, $receive_data->booking_date[$i], $receive_data->billing_amount);
+    $res=$comp->booked_vehicle();
+}
+$res['days']=$receive_data->days;
+    echo json_encode($res);
