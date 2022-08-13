@@ -189,11 +189,47 @@ function load($data): void
         submitBtn.disabled = true;
         if(datesArray.length===0){
             alert("kindly select at least one dates for booking!");
+        }else{
+            //CALL BOOKING API
+            // IF SUCCESS THEN REDIRECT TO SHOW_BOOKING COMPONENT
+            doBooking().then(data=>{
+                console.log(data);
+            })
+
         }
         setTimeout(() => {
             submitBtn.disabled = false;
         },3000)
     })
+
+    async function doBooking(){
+        let url = "http://localhost:80/rentalcar/api/customer/booking_api.php";
+        let customerId;
+        let vehicleId;
+        let bookingDates;
+        let days;
+        let billingAmount;
+        let sendData={
+            "customer_id": "test@gmail.com",
+            "vehicle_id": "6",
+            "booking_date": [
+                "12/08/2022",
+                "13/08/2022"
+            ],
+            "days": "2",
+            "billing_amount": "2000"
+        }
+        let payload ={
+            method:'POST',
+            cache:'no-cache',
+            headers:{
+                'Content-type':'application/json'
+            },
+            body :JSON.stringify(sendData)
+        }
+        const response = await fetch(url,payload);
+        return response.json();
+    }
 
 </script>
 </body>
