@@ -41,7 +41,7 @@ class customer_login extends common_utility
             $res = $this->conn->query($sql);
             if ($res->num_rows > 0) {
                 if ($password == $res->fetch_assoc()['password']) {
-                    $_SESSION['customer'] = $password;
+                    $_SESSION['customer'] = $username;
                     $this->redirect_url("./customer_login.php");
                 } else {
                     echo '<div class="alert alert-danger" role="alert">
