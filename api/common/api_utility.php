@@ -70,6 +70,25 @@ class api_utility
         return false;
     }
 
+
+    /**
+     * @param mysqli $conn
+     * @param String $vehicle_id
+     * @return bool
+     */
+    protected function is_vehicle_exist(mysqli $conn, String $vehicle_id): bool
+    {
+        $sql ="SELECT vehicle_number FROM post_cars WHERE vehicle_id=?";
+        $query=$conn->prepare($sql);
+        $query->bind_param("s",$vehicle_id);
+        $query->execute();
+        $res =$query->get_result();
+        if ($res->num_rows > 0) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @param $password
      * @return bool
