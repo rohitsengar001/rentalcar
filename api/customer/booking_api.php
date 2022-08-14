@@ -74,7 +74,7 @@ class booking_api extends api_utility
 
 $receive_data = json_decode(file_get_contents("php://input"));
 $res=[];
-for ($i = 0; $i < $receive_data->days; $i++) {
+for ($i = 0; $i < count($receive_data->booking_date); $i++) {
     $comp = new booking_api($receive_data->vehicle_id, $receive_data->customer_id, $receive_data->booking_date[$i], $receive_data->billing_amount);
     $res=$comp->booked_vehicle();
 }
