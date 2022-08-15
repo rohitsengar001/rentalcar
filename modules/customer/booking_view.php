@@ -58,7 +58,7 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
 
 <body>
 <?php include './navbar.php';
-function load($data): void
+function load($data,$booked_dates): void
 {
 ?>
 <!--CONTAINER START-->
@@ -143,7 +143,7 @@ function load($data): void
 
     let billingAmount = document.getElementById("billingAmount");
     //THIS OBJECT TAKES ALL SELECTED DATES INSIDE THE ARRAY
-    let datesArray=[];
+    let datesArray = [];
 
     //GET NUMBER OF DAYS FROM THE DAYS INPUT BOX
     let inputDays = document.getElementById("inputDays");
@@ -153,6 +153,19 @@ function load($data): void
         console.log(passData.selectMax);
         mobiscroll.datepicker("#demo-range-selection", passData);
     });
+
+    //GET PREVIOUS DATE
+    function getPreviousDay(date = new Date()) {
+        const previous = new Date(date.getTime());
+        previous.setDate(date.getDate() );
+
+        return previous;
+    }
+    let bookedDates=<?= $booked_dates ?>;
+    bookedDates.push({
+        start:'01/01/2000',
+        end:getPreviousDay()
+    })
 
     //PASS THIS OBJECT INSIDE THE DATE-PICKER OBJECT
     let passData = {
@@ -165,7 +178,7 @@ function load($data): void
         dateFormat: 'DD/MM/YYYY',
         locale: mobiscroll.locale['en'],
         returnFormat: "locale",
-        invalid: ["12-08-2022"],
+        invalid: bookedDates,
         onChange: function (event, inst) {
             console.log(inst.getTempVal());
             datesArray = inst.getTempVal();
@@ -187,47 +200,46 @@ function load($data): void
     let submitBtn = document.getElementById("submit");
     submitBtn.addEventListener('click', () => {
         submitBtn.disabled = true;
-        if(datesArray.length===0){
+        if (datesArray.length === 0) {
             alert("kindly select at least one dates for booking!");
-        }else{
+        } else {
             //CALL BOOKING API
             // IF SUCCESS THEN REDIRECT TO SHOW_BOOKING COMPONENT
-            doBooking().then(data=>{
+            doBooking().then(data => {
                 console.log(data);
+                setTimeout(()=>{
+                    window.location =`./success_component.php?booking_nums=${datesArray.length}`;
+                },2000);
             })
-
         }
         setTimeout(() => {
             submitBtn.disabled = false;
-        },3000)
+        }, 3000)
     })
 
-    async function doBooking(){
+    async function doBooking() {
         let url = "http://localhost:80/rentalcar/api/customer/booking_api.php";
-        let customerId;
-        let vehicleId;
-        let bookingDates;
-        let days;
-        let billingAmount;
-        let sendData={
-            "customer_id": "test@gmail.com",
-            "vehicle_id": "6",
-            "booking_date": [
-                "12/08/2022",
-                "13/08/2022"
-            ],
-            "days": "2",
-            "billing_amount": "2000"
+        let customerId = "<?= $_SESSION['customer']?>";
+        let vehicleId = "<?= $_GET['vehicleid']?>";
+        let bookingDates = datesArray;
+        let days = document.getElementById("inputDays").value;
+        let billingAmount = (document.getElementById("billingAmount").value) / datesArray.length;
+        let sendData = {
+            "customer_id": customerId,
+            "vehicle_id": vehicleId,
+            "booking_date": bookingDates,
+            "days": days,
+            "billing_amount": billingAmount.toString()
         }
-        let payload ={
-            method:'POST',
-            cache:'no-cache',
-            headers:{
-                'Content-type':'application/json'
+        let payload = {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-type': 'application/json'
             },
-            body :JSON.stringify(sendData)
+            body: JSON.stringify(sendData)
         }
-        const response = await fetch(url,payload);
+        const response = await fetch(url, payload);
         return response.json();
     }
 

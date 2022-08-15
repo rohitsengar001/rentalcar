@@ -32,6 +32,7 @@ class booking_component extends common_utility
             $this->set_data($_GET['vehicleid']);
         } else {
             echo "vehicleid is not available";
+            die();
         }
 
     }
@@ -51,6 +52,41 @@ class booking_component extends common_utility
         }
     }
 
+    public function get_booked_dates($vehicle_id){
+        $return_data=[];
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_PORT => "80",
+            CURLOPT_URL => "http://localhost:80/rentalcar/api/customer/booking_dates_api.php",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "{\n\t\"vehicle_id\":\"$vehicle_id\"\n}",
+            CURLOPT_HTTPHEADER => array(
+                "cache-control: no-cache",
+                "content-type: application/json",
+                "postman-token: b50e16dd-08f7-06da-1e44-aaaa5055a033"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+        } else {
+            //DOES NOT REQUIRE TO CONVERT IN JSON_DECODE
+            // BECAUSE IT'S RESULT DIRECTLY ACCEPTABLE INTO JS ARRAY OBJECT
+            $return_data = $response;
+        }
+        return $return_data;
+    }
 
     public function get_data()
     {
@@ -66,9 +102,10 @@ class booking_component extends common_utility
 $comp = new booking_component();
 $comp->load_view();
 $receive_data = $comp->get_data();
+$receive_dates=$comp->get_booked_dates($_GET['vehicleid']);
 
 //FUNCTION DEFINITION IN  `booking_view.php`
 //LOADING CARD
-load($receive_data);
+load($receive_data,$receive_dates);
 
 //echo $receive_data['vehicle_model'] ?? "data not available";
