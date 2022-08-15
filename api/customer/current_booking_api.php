@@ -12,7 +12,7 @@ header('Access-Control-Allow-Methods: POST');
 header("Content-Type: application/json; charset=UTF-8");
 header('Access-Control-Allow-Headers:Content-Type,Access-Control-Allow-Method,Access-Control-Allow-Origin');
 
-class _current_bookingApi extends api_utility
+class current_booking_api extends api_utility
 {
     private $last_books_nums;
     private $conn;
@@ -47,7 +47,7 @@ class _current_bookingApi extends api_utility
                 $res=$query->get_result();
                 //IF ANY RECORD RETURN THEN
                 if($res->num_rows > 0){
-                    $return_data = $res->fetch_all();
+                    $return_data = $res->fetch_all(MYSQLI_ASSOC);
                 }else{
                     $return_data = $this->msg(0,200,"DATA NOT FOUND!");
                 }
@@ -61,5 +61,5 @@ class _current_bookingApi extends api_utility
 
 }
 $receive_data = json_decode(file_get_contents("php://input"));
-$comp = new _current_bookingApi($receive_data->last_books_nums);
+$comp = new current_booking_api($receive_data->last_books_nums);
 echo json_encode($comp->get_booking());
