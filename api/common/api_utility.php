@@ -98,4 +98,18 @@ class api_utility
         return !!preg_match_all("$\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$", $password);
     }
 
+    public function flatten_array($demo_array): array{
+        if (!is_array($demo_array)) {
+            // make sure the input is an array
+            return array($demo_array);
+        }
+
+        $new_array = array();
+        foreach ($demo_array as $value) {
+            $new_array = array_merge($new_array, $this->flatten_array($value));
+        }
+
+        return $new_array;
+    }
+
 }
