@@ -244,9 +244,7 @@ if(isset($_POST['delete-btn'])){
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 </head>
 <body>
-<div class="container-fluid">
     <?php include_once '../common/navbar.php' ?>
-</div>
 <!--    CONTENT-->
 <div class="container">
     <!--    ALERT-DIV-->
@@ -260,8 +258,8 @@ if(isset($_POST['delete-btn'])){
         $index = 0;
         foreach ($receive_data as $data) {
             ?>
-            <div class="col mb-4">
-                <div class="card">
+            <div class="col mb-4 mt-2">
+                <div class="card shadow-lg">
                     <img src="../../upload/<?= $data[4] ?>" style="height: 280px" alt="..." >
                     <div class="card-body text-center">
                         <ul class="list-group list-group-flush">
