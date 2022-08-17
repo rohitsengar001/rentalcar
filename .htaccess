@@ -3,7 +3,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
 RewriteRule ^([^\.]+)$ $1.html [NC,L]
 # RewriteRule ^services/(.*)$ /urlfile.php?country=$1 [NC,L,QSA]
-#DirectoryIndex  index.php
+DirectoryIndex  index.php
 RewriteCond %{HTTPS} on
 RewriteRule ^/?$ http://%{SERVER_NAME}/ [R=301]
 #RewriteRule 301 redirecturl  /baseur

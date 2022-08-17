@@ -116,7 +116,7 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
 
         <!--    <form>-->
 
-        <img class="mb-4"
+        <img class="mt-5"
              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToC1dXoZ2nq61L01uJ1MKUG-IvTqxjVFd-Mg&usqp=CAU"
              alt="" width="100" height="80">
         <h1 class="h2 mb-3 fw-normal">Please sign in</h1>
@@ -164,9 +164,6 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
             <label for="regBtn"><span class="badge text-bg-success">Register Yourself</span>To Access
                 Application</label><br>
         </div>
-        <br>
-        <br>
-        <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
         <!--    </form>-->
     </form>
 </main>

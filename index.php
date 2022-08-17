@@ -1,3 +1,4 @@
 <?php
-include './modules/customer/customer_component.php';
+ header('Location: ./modules/customer/customer_component');
+ die();
 ?>

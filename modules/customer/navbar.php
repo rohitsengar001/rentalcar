@@ -12,6 +12,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="./my_booking_component.php">Booking</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../agency/agency-component.php">Agency Login</a>
+            </li>
         </ul>
     </div>
     <?php if(isset($_SESSION['customer'])){?>

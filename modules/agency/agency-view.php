@@ -57,7 +57,7 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
                 <div class="card-body bg-light shadow-lg">
                     <h5 class="card-title">Check Your Booking <i class="bi bi-airplane-engines-fill"></i></h5>
                     <p class="card-text">Easily Track your Booking.</p>
-                    <a href="#" class="btn btn-primary">Show Booking</a>
+                    <a href="./view_booking_component.php" class="btn btn-primary">Show Booking</a>
                 </div>
             </div>
         </div>
@@ -70,15 +70,7 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 mt-4">
-            <div class="card">
-                <div class="card-body bg-light shadow-lg">
-                    <h5 class="card-title">Check Your Booking <i class="bi bi-airplane-engines-fill"></i></h5>
-                    <p class="card-text">Easily Track your Booking.</p>
-                    <a href="#" class="btn btn-primary">Show Booking</a>
-                </div>
-            </div>
-        </div>
+
     </div>
 
     <!--   POST-VEHICLES MODAL-->
