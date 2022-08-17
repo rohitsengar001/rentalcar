@@ -128,7 +128,7 @@ function load($data,$booked_dates): void
 </div>
 <!--CONTAINER END-->
 
-<a class="btn btn-outline-primary" href="../auth/customer_logout.php">logout</a>
+
 
 
 <!--RESOURCES CDN-->

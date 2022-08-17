@@ -52,8 +52,9 @@ class booking_component extends common_utility
         }
     }
 
-    public function get_booked_dates($vehicle_id){
-        $return_data=[];
+    public function get_booked_dates($vehicle_id)
+    {
+        $return_data = [];
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -99,13 +100,19 @@ class booking_component extends common_utility
     }
 }
 
-$comp = new booking_component();
-$comp->load_view();
-$receive_data = $comp->get_data();
-$receive_dates=$comp->get_booked_dates($_GET['vehicleid']);
+if (!isset($_GET['vehicleid'])) {
+  echo 'you can not direct access this page';
+  header("Location: ../
+  auth/customer_login");
+  die();
+}
+    $comp = new booking_component();
+    $comp->load_view();
+    $receive_data = $comp->get_data();
+    $receive_dates = $comp->get_booked_dates($_GET['vehicleid']);
 
 //FUNCTION DEFINITION IN  `booking_view.php`
 //LOADING CARD
-load($receive_data,$receive_dates);
+    load($receive_data, $receive_dates);
 
 //echo $receive_data['vehicle_model'] ?? "data not available";
