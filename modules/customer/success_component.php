@@ -39,7 +39,7 @@ class success_component extends common_utility
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n\t \"last_books_nums\": \"2\"\n}",
+            CURLOPT_POSTFIELDS => "{\n\t \"last_books_nums\": \"$last_booking_nums\"\n}",
             CURLOPT_HTTPHEADER => array(
                 "cache-control: no-cache",
                 "content-type: application/json",

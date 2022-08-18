@@ -20,11 +20,11 @@
     <?php if(isset($_SESSION['customer'])){?>
     <div class="d-flex">
         <a class="btn btn-primary" href="../auth/customer_logout.php">logout</a>
-    </div>>
+    </div>
     <?php }?>
     <?php if(!isset($_SESSION['customer'])){?>
         <div class="d-flex">
             <a class="btn btn-primary" href="../auth/customer_login.php">login</a>
-        </div>>
+        </div>
     <?php }?>
 </nav>
