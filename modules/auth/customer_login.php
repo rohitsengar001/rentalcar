@@ -8,9 +8,9 @@ use mysqli_sql_exception;
 use rentalcar\api\common\DbConnection;
 use rentalcar\modules\common\common_utility;
 
-session_start();
 define("BLOCK_DIRECT_ACCESS", true);
 
+session_start();
 class customer_login extends common_utility
 {
     private $conn;

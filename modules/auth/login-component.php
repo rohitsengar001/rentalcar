@@ -1,5 +1,4 @@
 <?php
-
 namespace rentalcar\modules\auth;
 session_start();
 define("BLOCK_DIRECT_ACCESS", true);
@@ -54,8 +53,9 @@ class login_component
             if ($data["success"]) {
                 $_SESSION['username'] = $data['token'];
 //                header("refresh:1");
-                header("Location: ../../modules/agency/agency-component",true,301);
-//                echo "<script>location.href='../../modules/agency/agency-component.php';</script>";
+//                header("Location: ../../modules/agency/agency-component");
+//                exit();
+                echo "<script>location.href='../../modules/agency/agency-component.php'</script>";
             } else {
                 echo '<script>
   let child_alert_div=`<strong>"' . $data['message'] . '"</strong> You should check in on some of those fields below.

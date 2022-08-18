@@ -18,6 +18,7 @@ class agency_component extends common_utility
 
             echo "you're not valid user";
             header("Refresh: 5;url= http://localhost/rentalcar/modules/auth/login-component");
+            exit();
         }
     }
 

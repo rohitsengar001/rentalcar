@@ -1,6 +1,7 @@
 <?php
 if (!defined('BLOCK_DIRECT_ACCESS')) {
     header("Location: ../../../notfound.php");
+    die();
 }
 ?>
 <!doctype html>

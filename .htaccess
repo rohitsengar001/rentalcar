@@ -2,13 +2,13 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
 RewriteRule ^([^\.]+)$ $1.html [NC,L]
-# RewriteRule ^services/(.*)$ /urlfile.php?country=$1 [NC,L,QSA]
-DirectoryIndex  index.php
-RewriteCond %{HTTPS} on
-RewriteRule ^/?$ http://%{SERVER_NAME}/ [R=301]
-#RewriteRule 301 redirecturl  /baseur
-RewriteRule ^inner/directory/?$ http://%{SERVER_NAME}/inner/directory/ [R=301,L]
-php_value session.cookie_path "/"
-php_value session.cookie_domain ".localhost"
-php_flag output_buffering on
+## RewriteRule ^services/(.*)$ /urlfile.php?country=$1 [NC,L,QSA]
+#DirectoryIndex  index.php
+#RewriteCond %{HTTPS} on
+#RewriteRule ^/?$ http://%{SERVER_NAME}/ [R=301]
+##RewriteRule 301 redirecturl  /baseur
+#RewriteRule ^inner/directory/?$ http://%{SERVER_NAME}/inner/directory/ [R=301,L]
+#php_value session.cookie_path "/"
+#php_value session.cookie_domain ".localhost"
+#php_flag output_buffering on
 ErrorDocument 404 /rentalcar/notfound.php

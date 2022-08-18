@@ -1,7 +1,7 @@
 <?php
 
 namespace rentalcar\modules\customer;
-include 'C:\xampp\htdocs\rentalcar\modules\common\common_utility.php';
+include '../common/common_utility.php';
 define("DIRECT_BLOCK_ACCESS",true);
 use rentalcar\modules\common\common_utility;
 session_start();
