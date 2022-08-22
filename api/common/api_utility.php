@@ -70,6 +70,18 @@ class api_utility
         return false;
     }
 
+    protected function is_agency_user_exist(mysqli $conn, String $username): bool
+    {
+        $sql ="SELECT password FROM auth_table WHERE username=?";
+        $query=$conn->prepare($sql);
+        $query->bind_param("s",$username);
+        $query->execute();
+        $res =$query->get_result();
+        if ($res->num_rows > 0) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @param mysqli $conn

@@ -52,6 +52,7 @@ class view_booking_component
         } else {
             $this->data=json_decode($response);
 //            print_r($response);
+//            echo $this->username;
         }
     }
 

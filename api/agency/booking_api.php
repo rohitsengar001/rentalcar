@@ -29,7 +29,7 @@ class booking_api extends api_utility
             $return_data = $this->msg(0, 404, "REQUEST METHOD SHOULD BE POST TYPE!");
         } elseif (!isset($this->username) || empty(trim($this->username))) {
             $return_data = $this->msg(0, 404, 'USERNAME IS EMPTY!');
-        } elseif (!$this->is_user_exist($this->conn, 'post_cars', $this->username)) {
+        } elseif (!$this->is_agency_user_exist($this->conn, $this->username)) {
             $return_data = $this->msg(0, 404, 'USER IS NOT EXIST!');
         } else {
             $query = $this->conn->prepare("SELECT * FROM post_cars p INNER JOIN booking b on p.vehicle_id = b.vehicle_id where username=?");
