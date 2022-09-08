@@ -24,6 +24,9 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
             type="text/css"
             href="https://npmcdn.com/flatpickr/dist/themes/dark.css"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <style type="text/css">
         body {
             margin: 0;
@@ -60,6 +63,23 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
         .mbsc-page {
             padding: 1em;
         }
+
+        .event {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 150px;
+            bottom: 3px;
+            left: calc(50% - 1.5px);
+            content: " ";
+            display: block;
+            background: #3d8eb9;
+        }
+
+        .event.busy {
+            background: #f64747;
+        }
+
     </style>
 </head>
 
@@ -120,8 +140,12 @@ function load($data, $booked_dates): void
                 </div>
 
                 <!-- DATE PICKER-->
-                <label for="demo-range-selection">Select Booking Dates</label><input type="date"
-                                                                                     id="demo-range-selection"/>
+                <label for="demo-range-selection">Select Booking Dates</label>
+                <div class="input-group mb-3">
+                    <input type="date" class="form-control" id="demo-range-selection" placeholder="select Dates...."/>
+                    <span class="input-group-text" id="calendarButton"><i class="fa-solid fa-calendar-days"></i></span>
+                </div>
+
                 <!--DATE PICKER END-->
                 <button type="button" class="btn btn-warning" id="submit">Submit</button>
             </form>
@@ -141,7 +165,6 @@ function load($data, $booked_dates): void
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- Bootstrap Datepicker JS -->
 <script>
-
     let billingAmount = document.getElementById("billingAmount");
     //THIS OBJECT TAKES ALL SELECTED DATES INSIDE THE ARRAY
     let datesArray = [];
@@ -155,43 +178,47 @@ function load($data, $booked_dates): void
     }
 
     let bookedDates = <?= $booked_dates ?>;
-    bookedDates.push({
-        start: '01/01/2000',
-        end: getPreviousDay()
-    })
 
-    //PASS THIS OBJECT INSIDE THE DATE-PICKER OBJECT
-    //let passData = {
-    //    controls: ["calendar"], // More info about controls: https://docs.mobiscroll.com/5-18-1/javascript/calendar#opt-controls
-    //    display: "inline", // Specify display mode like: display: 'bottom' or omit setting to use default
-    //    selectMultiple: true,
-    //    selectMax: 1,
-    //    selectCounter: true,
-    //    showRangeLabels: true,
-    //    dateFormat: 'DD/MM/YYYY',
-    //    locale: mobiscroll.locale['en'],
-    //    returnFormat: "locale",
-    //    invalid: bookedDates,
-    //    onChange: function (event, inst) {
-    //        console.log(inst.getTempVal());
-    //        datesArray = inst.getTempVal();
-    //        billingAmount.value = (datesArray.length * <?//=$data['rent_per_day']?>//);
-    //    }
-    //};
     //GET NUMBER OF DAYS FROM THE DAYS INPUT BOX
     let days = document.getElementById("inputDays");
     days.addEventListener("blur", () => {
         console.log('blur days button');
         flatpickr('#demo-range-selection', passData);
     });
-    // datepicker
+
+    //PASS THIS OBJECT INSIDE THE DATE-PICKER OBJECT
     let prevDate;
+    let count = 1;
     let passData = {
         mode: 'multiple',
         dateFormat: 'd/m/Y',
         minDate: 'today',
         maxDate: new Date().fp_incr(60),
         disable: bookedDates,
+        onDayCreate: function (dObj, dStr, fp, dayElem) {
+            //logic for busy event represent
+            if (bookedDates.length > 0) {
+                // get days, months and years
+                // Utilize dayElem.dateObj, which is the corresponding Date
+                let getD = parseInt(dayElem.dateObj.getDate());
+                let getM = parseInt(dayElem.dateObj.getMonth());
+                let getY = parseInt(dayElem.dateObj.getFullYear());
+
+                //iterate each reserved date
+                bookedDates.forEach((date) => {
+                    //get days , months and years from reserved date
+                    let splitedDateArray = date.toString().split('/');
+                    let reserveDate = +(splitedDateArray[0]);
+                    let reserveMonth = +(splitedDateArray[1]);
+                    let reserveYear = +(splitedDateArray[2]);
+                    if ((reserveDate === getD && reserveMonth === getM + 1 && reserveYear === getY)) {
+                        console.log("=>", reserveYear, getY);
+                        dayElem.innerHTML += "<span class='event busy'></span>";
+                    }
+                })
+            }
+
+        },
         onChange: function (selectedDates, dateStr, instance) {
             let inputDatesArray = dateStr.split(',');
             let dateLen = inputDatesArray.length;
@@ -210,7 +237,10 @@ function load($data, $booked_dates): void
             billingAmount.value = (datesArray.length * <?=$data['rent_per_day']?>);
         },
     };
+
+    // datepicker instance
     let calendar = flatpickr('#demo-range-selection', passData);
+     flatpickr('#calendarButton', passData);
 
 
     // FORM VALIDATIONS ON SUBMIT BUTTON
