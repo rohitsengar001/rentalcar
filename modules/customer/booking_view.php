@@ -14,9 +14,16 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
             rel="stylesheet"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
-    <!-- Mobiscroll JS and CSS Includes -->
-    <link rel="stylesheet" href="../../resources/datepicker/css/mobiscroll.javascript.min.css"/>
-    <script src="../../resources/datepicker/js/mobiscroll.javascript.min.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://npmcdn.com/flatpickr/dist/themes/dark.css"
+    />
     <style type="text/css">
         body {
             margin: 0;
@@ -58,7 +65,7 @@ if (!defined('BLOCK_DIRECT_ACCESS')) {
 
 <body>
 <?php include './navbar.php';
-function load($data,$booked_dates): void
+function load($data, $booked_dates): void
 {
 ?>
 <!--CONTAINER START-->
@@ -113,12 +120,8 @@ function load($data,$booked_dates): void
                 </div>
 
                 <!-- DATE PICKER-->
-                <div mbsc-page class="demo-range-select">
-                    <label for="demo-range-selection" class="font-weight-bold">Select Your Dates</label>
-                    <div style="height: 100%">
-                        <div id="demo-range-selection"></div>
-                    </div>
-                </div>
+                <label for="demo-range-selection">Select Booking Dates</label><input type="date"
+                                                                                     id="demo-range-selection"/>
                 <!--DATE PICKER END-->
                 <button type="button" class="btn btn-warning" id="submit">Submit</button>
             </form>
@@ -127,8 +130,6 @@ function load($data,$booked_dates): void
     <!--    BOOKING SECTION END-->
 </div>
 <!--CONTAINER END-->
-
-
 
 
 <!--RESOURCES CDN-->
@@ -145,58 +146,74 @@ function load($data,$booked_dates): void
     //THIS OBJECT TAKES ALL SELECTED DATES INSIDE THE ARRAY
     let datesArray = [];
 
-    //GET NUMBER OF DAYS FROM THE DAYS INPUT BOX
-    let inputDays = document.getElementById("inputDays");
-    inputDays.addEventListener("blur", () => {
-        passData.selectMax = inputDays.value;
-        console.log(inputDays.value);
-        console.log(passData.selectMax);
-        mobiscroll.datepicker("#demo-range-selection", passData);
-    });
-
     //GET PREVIOUS DATE
     function getPreviousDay(date = new Date()) {
         const previous = new Date(date.getTime());
-        previous.setDate(date.getDate() );
+        previous.setDate(date.getDate());
 
         return previous;
     }
-    let bookedDates=<?= $booked_dates ?>;
+
+    let bookedDates = <?= $booked_dates ?>;
     bookedDates.push({
-        start:'01/01/2000',
-        end:getPreviousDay()
+        start: '01/01/2000',
+        end: getPreviousDay()
     })
 
     //PASS THIS OBJECT INSIDE THE DATE-PICKER OBJECT
-    let passData = {
-        controls: ["calendar"], // More info about controls: https://docs.mobiscroll.com/5-18-1/javascript/calendar#opt-controls
-        display: "inline", // Specify display mode like: display: 'bottom' or omit setting to use default
-        selectMultiple: true,
-        selectMax: 1,
-        selectCounter: true,
-        showRangeLabels: true,
-        dateFormat: 'DD/MM/YYYY',
-        locale: mobiscroll.locale['en'],
-        returnFormat: "locale",
-        invalid: bookedDates,
-        onChange: function (event, inst) {
-            console.log(inst.getTempVal());
-            datesArray = inst.getTempVal();
-            billingAmount.value = (datesArray.length * <?=$data['rent_per_day']?>);
-        }
-    };
-
-    //SET OPTION FOR DATE PICKER
-    mobiscroll.setOptions({
-        locale: mobiscroll.localeEn, // Specify language like: locale: mobiscroll.localePl or omit setting to use default
-        theme: "ios", // Specify theme like: theme: 'ios' or omit setting to use default
-        themeVariant: "dark", // More info about themeVariant: https://docs.mobiscroll.com/5-18-1/javascript/calendar#opt-themeVariant
+    //let passData = {
+    //    controls: ["calendar"], // More info about controls: https://docs.mobiscroll.com/5-18-1/javascript/calendar#opt-controls
+    //    display: "inline", // Specify display mode like: display: 'bottom' or omit setting to use default
+    //    selectMultiple: true,
+    //    selectMax: 1,
+    //    selectCounter: true,
+    //    showRangeLabels: true,
+    //    dateFormat: 'DD/MM/YYYY',
+    //    locale: mobiscroll.locale['en'],
+    //    returnFormat: "locale",
+    //    invalid: bookedDates,
+    //    onChange: function (event, inst) {
+    //        console.log(inst.getTempVal());
+    //        datesArray = inst.getTempVal();
+    //        billingAmount.value = (datesArray.length * <?//=$data['rent_per_day']?>//);
+    //    }
+    //};
+    //GET NUMBER OF DAYS FROM THE DAYS INPUT BOX
+    let days = document.getElementById("inputDays");
+    days.addEventListener("blur", () => {
+        console.log('blur days button');
+        flatpickr('#demo-range-selection', passData);
     });
+    // datepicker
+    let prevDate;
+    let passData = {
+        mode: 'multiple',
+        dateFormat: 'd/m/Y',
+        minDate: 'today',
+        maxDate: new Date().fp_incr(60),
+        disable: bookedDates,
+        onChange: function (selectedDates, dateStr, instance) {
+            let inputDatesArray = dateStr.split(',');
+            let dateLen = inputDatesArray.length;
+            console.log(dateLen, days.value);
+            if (dateLen <= parseInt(days.value)) {
+                console.log("true")
+                prevDate = inputDatesArray;
+                datesArray = inputDatesArray;
+            } else {
+                console.log('false');
+                let msg = `can not selected more than ${days.value}`;
+                alert(msg)
+                instance.setDate(prevDate);
+                datesArray = prevDate;
+            }
+            billingAmount.value = (datesArray.length * <?=$data['rent_per_day']?>);
+        },
+    };
+    let calendar = flatpickr('#demo-range-selection', passData);
 
-    //INSTANTIATE TO THE DATE PICKER
-    mobiscroll.datepicker("#demo-range-selection", passData);
 
-    // FORM VALIDATIONS
+    // FORM VALIDATIONS ON SUBMIT BUTTON
     let submitBtn = document.getElementById("submit");
     submitBtn.addEventListener('click', () => {
         submitBtn.disabled = true;
@@ -207,9 +224,9 @@ function load($data,$booked_dates): void
             // IF SUCCESS THEN REDIRECT TO SHOW_BOOKING COMPONENT
             doBooking().then(data => {
                 console.log(data);
-                setTimeout(()=>{
-                    window.location =`./success_component.php?booking_nums=${datesArray.length}`;
-                },2000);
+                setTimeout(() => {
+                    window.location = `./success_component.php?booking_nums=${datesArray.length}`;
+                }, 2000);
             })
         }
         setTimeout(() => {
