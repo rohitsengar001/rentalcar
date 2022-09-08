@@ -229,7 +229,7 @@ function load($data, $booked_dates): void
                 datesArray = inputDatesArray;
             } else {
                 console.log('false');
-                let msg = `can not selected more than ${days.value}`;
+                let msg = `can not be selected more than ${days.value}`;
                 alert(msg)
                 instance.setDate(prevDate);
                 datesArray = prevDate;
